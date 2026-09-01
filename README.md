@@ -56,7 +56,7 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 | Phase | Deliverable | Status |
 |---|---|---|
 | 0 | Repo scaffold, CI, design docs | ✅ |
-| 1 | Synthetic claims + rework dataset (CMS/Synthea-seeded) | ⬜ |
+| 1 | Synthetic claims + rework dataset ([13 scenarios](docs/data-dictionary.md), CMS public code sets) | ✅ |
 | 2 | Mock services + Postgres audit ledger (docker compose) | ⬜ |
 | 3 | NAN classifier + model card | ⬜ |
 | 4 | Rules engine | ⬜ |
@@ -70,8 +70,13 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 ```bash
 uv sync
 uv run pytest
+uv run python data/generate_rework.py --n-requests 5000 --seed 42 --out data/demo
 # full pipeline quickstart lands with Phase 2 (docker compose up)
 ```
+
+A frozen 5,000-request demo dataset (5,837 claims, 13 rework scenarios, separate
+ground-truth file so the pipeline can never see labels) ships in `data/demo/` —
+see the [data dictionary](docs/data-dictionary.md).
 
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/). Agent runs need an
 `ANTHROPIC_API_KEY`; recorded traces in `evals/traces/` demo the agent without one.
