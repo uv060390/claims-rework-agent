@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: rework
+      POSTGRES_PASSWORD: rework
+      POSTGRES_DB: ledger
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rework -d ledger"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+
+  unet:
+    build: .
+    command: uvicorn mocks.unet.app:app --host 0.0.0.0 --port 8001
+    environment:
+      CLAIMS_CSV: data/demo/claims.csv
+    ports:
+      - "8001:8001"
+
+  servicenow:
+    build: .
+    command: uvicorn mocks.servicenow.app:app --host 0.0.0.0 --port 8002
+    environment:
+      # orchestrator approval webhook; set when the pipeline gateway is running
+      SERVICENOW_WEBHOOK_URL: ""
+    ports:
+      - "8002:8002"
+
+  uipath:
+    build: .
+    command: uvicorn mocks.uipath.app:app --host 0.0.0.0 --port 8003
+    environment:
+      UNET_URL: http://unet:8001
+      FAILURE_RATE: "0.05"
+      EXECUTION_LATENCY_SECONDS: "0.5"
+    ports:
+      - "8003:8003"
+    depends_on:
+      - unet

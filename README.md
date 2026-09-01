@@ -57,7 +57,7 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 |---|---|---|
 | 0 | Repo scaffold, CI, design docs | ✅ |
 | 1 | Synthetic claims + rework dataset ([13 scenarios](docs/data-dictionary.md), CMS public code sets) | ✅ |
-| 2 | Mock services + Postgres audit ledger (docker compose) | ⬜ |
+| 2 | Mock services + Postgres audit ledger (docker compose) | ✅ |
 | 3 | NAN classifier + model card | ⬜ |
 | 4 | Rules engine | ⬜ |
 | 5 | LangGraph + Claude triage agent | ⬜ |
@@ -71,8 +71,15 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 uv sync
 uv run pytest
 uv run python data/generate_rework.py --n-requests 5000 --seed 42 --out data/demo
-# full pipeline quickstart lands with Phase 2 (docker compose up)
+
+docker compose up --build   # claims platform :8001, ticketing :8002, RPA queue :8003, Postgres :5432
 ```
+
+With the stack up you can drive the whole Recommend-then-Release flow by hand —
+create a ticket (`POST :8002/tickets`), post a recommendation work note, transition
+to `pending_approval` → `approved`, release a job (`POST :8003/queues/claims-rework/jobs`),
+and watch the claim change in the system of record (`GET :8001/claims/{id}`).
+`tests/test_e2e_flow.py` runs exactly this flow in-process, ledger included.
 
 A frozen 5,000-request demo dataset (5,837 claims, 13 rework scenarios, separate
 ground-truth file so the pipeline can never see labels) ships in `data/demo/` —
