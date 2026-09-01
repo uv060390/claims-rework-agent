@@ -1,0 +1,26 @@
+# local planning docs (kept out of the public repo)
+PLAN.md
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# env / secrets
+.env
+.env.*
+
+# data artifacts (frozen demo dataset is committed explicitly)
+data/raw/
+data/work/
+
+# node / next
+node_modules/
+.next/
+.vercel/
+
+# os
+.DS_Store
