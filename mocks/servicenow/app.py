@@ -7,16 +7,26 @@ and an approval webhook notifies the orchestrator.
 
 import contextlib
 import os
+from contextlib import asynccontextmanager
 from datetime import UTC, datetime
 
 import httpx
 from fastapi import BackgroundTasks, FastAPI, HTTPException
 from pydantic import BaseModel
 
-app = FastAPI(title="mock-servicenow (ticketing system)")
-
 TICKETS: dict[str, dict] = {}
 _seq = 0
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    global _seq
+    TICKETS.clear()  # restart = reset, like the other mocks
+    _seq = 0
+    yield
+
+
+app = FastAPI(title="mock-servicenow (ticketing system)", lifespan=lifespan)
 
 # state machine: which target states are reachable from each state
 TRANSITIONS: dict[str, set[str]] = {

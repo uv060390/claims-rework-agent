@@ -30,11 +30,18 @@ request ─► [1] NAN classifier ─► [2] rules engine ─► [3] triage agen
 
 ### 3. Triage agent — `pipeline/agent/` (LangGraph + Claude)
 
-Graph:
+Graph (`pipeline/agent/graph.py`):
 
 ```
-gather_context ─► analyze ─►(tool calls as needed)─► recommend ─► post_to_ticket
+gather_context (deterministic prefetch) ─► agent ◄──► tools (as needed)
+                                            └─► submit_recommendation (terminal tool call)
 ```
+
+The agent terminates by CALLING the `submit_recommendation` tool — args arrive
+structured and validated, never parsed from free text. If it fails to submit
+(refusal, invalid amount, recursion limit), the fallback is `route_specialist`
+at confidence 0.2: non-executable, guaranteed to land with a human. The
+orchestrator (not the graph) posts the recommendation to the ticket.
 
 Tools (all read-only, all HTTP against mocks):
 | Tool | Backs onto |

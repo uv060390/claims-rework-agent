@@ -60,7 +60,7 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 | 2 | Mock services + Postgres audit ledger (docker compose) | ✅ |
 | 3 | NAN classifier + [model card](docs/model-card.md) — PR-AUC 0.989, 34.7% auto-close @ 99% precision | ✅ |
 | 4 | Rules engine — 32.2% coverage at 100% precision (CI-gated) | ✅ |
-| 5 | LangGraph + Claude triage agent | ⬜ |
+| 5 | LangGraph + Claude triage agent + orchestrator with STP gate | ✅ |
 | 6 | Analyst dashboard (Next.js / Vercel) | ⬜ |
 | 7 | Evaluation harness + eval report | ⬜ |
 | 8 | Polish, demo GIF, live deployment | ⬜ |
@@ -84,6 +84,10 @@ and watch the claim change in the system of record (`GET :8001/claims/{id}`).
 A frozen 5,000-request demo dataset (5,837 claims, 13 rework scenarios, separate
 ground-truth file so the pipeline can never see labels) ships in `data/demo/` —
 see the [data dictionary](docs/data-dictionary.md).
+
+On that dataset the funnel splits: **22.3%** auto-closed by the classifier,
+**32.2%** resolved deterministically by rules, **45.5%** triaged by the
+LangGraph + Claude agent — LLM spend goes only to genuine ambiguity.
 
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/). Agent runs need an
 `ANTHROPIC_API_KEY`; recorded traces in `evals/traces/` demo the agent without one.

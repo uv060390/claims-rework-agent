@@ -30,6 +30,9 @@ def load_claims(path: Path) -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    global _adj_seq
+    ADJUSTMENTS.clear()  # restart = reset
+    _adj_seq = 0
     load_claims(Path(os.environ.get("CLAIMS_CSV", "data/demo/claims.csv")))
     yield
 

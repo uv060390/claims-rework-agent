@@ -21,6 +21,9 @@ _rng = random.Random()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    global _seq
+    JOBS.clear()  # restart = reset, like the other mocks
+    _seq = 0
     app.state.unet = httpx.Client(
         base_url=os.environ.get("UNET_URL", "http://localhost:8001"), timeout=10
     )
@@ -66,7 +69,7 @@ def _execute(job_id: str) -> None:
                 },
             )
             resp.raise_for_status()
-        except httpx.HTTPError as exc:
+        except Exception as exc:  # a robot execution error must fail the job, not the queue
             job["last_error"] = str(exc)
             continue
         job["status"] = "succeeded"
