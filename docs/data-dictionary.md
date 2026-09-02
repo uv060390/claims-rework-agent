@@ -67,9 +67,9 @@ scenarios also emit the *original* claim so the pipeline can look it up.
 | `underpaid_fee_schedule` | adjust_up | ✓ | ✓ | paid below fee-schedule allowed; delta owed |
 | `overpaid_recoupment` | adjust_down | — | ✓ | audit found overpayment; recoup |
 | `correct_payment_dispute` | no_change | — | — | payment was correct; provider disputes anyway |
-| `true_duplicate` | uphold_denial | — | ✓ | CARC 18 denial is right; original was paid |
+| `true_duplicate` | uphold_denial | — | ✓ when linked | CARC 18 denial is right; original was paid (75% carry the original-claim link; the rest arrive unlinked) |
 | `corrected_resubmission_denied_as_dup` | reprocess | ✓ | — | denied as dup, but "original" was itself denied |
-| `timely_filing_expired` | uphold_denial | — | ✓ | filed past the 90-day limit, no exception |
+| `timely_filing_expired` | uphold_denial | — | — | filed past the 90-day limit, no exception (15% still attach irrelevant docs, so the attachment flag can't separate this from a real exception) |
 | `timely_filing_exception` | reprocess | ✓ | — | late claim with proof of timely original submission |
 | `auth_denied_in_error` | reprocess | ✓ | — | CARC 197 but a valid auth is on file |
 | `missing_auth_valid_denial` | uphold_denial | — | — | no auth exists; denial stands |
@@ -78,5 +78,12 @@ scenarios also emit the *original* claim so the pipeline can look it up.
 | `bundled_service_denial` | uphold_denial | — | ✓ | CARC 97 bundling denial is correct |
 | `telehealth_modifier_denial` | reprocess | ✓ | — | telehealth claim missing modifier 95, corrected |
 
-Demo-set shares (seed 42, n=5000): `no_adjustment_needed` 44.0%, `clear_cut` 42.4%,
-`favorable_to_provider` 44.5%.
+Ambiguity is injected deliberately so no structured feature fully separates the
+confusable scenario pairs (expired vs exception, missing-auth vs auth-in-error,
+duplicate vs corrected resubmission): attachment flags are probabilistic and some
+duplicates/resubmissions arrive without their original-claim link. The free-text
+note carries the distinguishing signal — that residual ambiguity is what the LLM
+triage layer exists to resolve.
+
+Demo-set shares (seed 42, n=5000): `no_adjustment_needed` 43.8%, `clear_cut` 32.2%,
+`favorable_to_provider` 44.1%.

@@ -265,7 +265,10 @@ class SynthGenerator:
         dup.paid_amount = Decimal("0.00")
         dup.status = "denied"
         dup.denial_carc = "18"
-        dup.original_claim_id = original.claim_id
+        # a quarter of duplicates arrive unlinked (filed as a fresh claim) — the
+        # adjudicator has to find the original; only linked ones are rules-safe
+        linked = self.rng.random() < 0.75
+        dup.original_claim_id = original.claim_id if linked else ""
         note = self._pick(
             [
                 "Claim denied as duplicate. This is a separate service for CPT {cpt} on {dos}; "
@@ -287,7 +290,7 @@ class SynthGenerator:
                 correct_adjustment_amount=None,
                 no_adjustment_needed=True,
                 favorable_to_provider=False,
-                clear_cut=True,
+                clear_cut=linked,
             ),
         )
 
@@ -301,7 +304,7 @@ class SynthGenerator:
         resub.submitted_date = original.submitted_date + timedelta(days=self.rng.randint(5, 25))
         resub.icd10_code = self.rng.choice(list(ICD10_BH))
         resub.denial_carc = "18"
-        resub.original_claim_id = original.claim_id
+        resub.original_claim_id = original.claim_id if self.rng.random() < 0.85 else ""
         note = self._pick(
             [
                 "This is a corrected claim, not a duplicate. The original claim {orig} was "
@@ -315,7 +318,7 @@ class SynthGenerator:
         return Case(
             claim=resub,
             extra_claims=[original],
-            request=self._request(resub, note, attachment=True),
+            request=self._request(resub, note, attachment=self.rng.random() < 0.7),
             truth=GroundTruth(
                 request_id="",
                 scenario_id="corrected_resubmission_denied_as_dup",
@@ -344,7 +347,9 @@ class SynthGenerator:
         )
         return Case(
             claim=claim,
-            request=self._request(claim, note),
+            # some providers attach (irrelevant) documentation to hopeless appeals,
+            # so the attachment flag alone cannot separate this from a real exception
+            request=self._request(claim, note, attachment=self.rng.random() < 0.15),
             truth=GroundTruth(
                 request_id="",
                 scenario_id="timely_filing_expired",
@@ -352,7 +357,7 @@ class SynthGenerator:
                 correct_adjustment_amount=None,
                 no_adjustment_needed=True,
                 favorable_to_provider=False,
-                clear_cut=True,
+                clear_cut=False,
             ),
         )
 
@@ -374,7 +379,7 @@ class SynthGenerator:
         )
         return Case(
             claim=claim,
-            request=self._request(claim, note, attachment=True),
+            request=self._request(claim, note, attachment=self.rng.random() < 0.8),
             truth=GroundTruth(
                 request_id="",
                 scenario_id="timely_filing_exception",
@@ -404,7 +409,7 @@ class SynthGenerator:
         )
         return Case(
             claim=claim,
-            request=self._request(claim, note, attachment=True),
+            request=self._request(claim, note, attachment=self.rng.random() < 0.8),
             truth=GroundTruth(
                 request_id="",
                 scenario_id="auth_denied_in_error",
@@ -433,7 +438,7 @@ class SynthGenerator:
         )
         return Case(
             claim=claim,
-            request=self._request(claim, note),
+            request=self._request(claim, note, attachment=self.rng.random() < 0.12),
             truth=GroundTruth(
                 request_id="",
                 scenario_id="missing_auth_valid_denial",
