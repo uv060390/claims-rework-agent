@@ -54,8 +54,20 @@ def get_claim(claim_id: str):
 
 
 @app.get("/providers/{npi}/claims")
-def provider_history(npi: str):
-    return [c for c in CLAIMS.values() if c["provider_npi"] == npi]
+def provider_history(
+    npi: str,
+    member_id: str | None = None,
+    service_date: str | None = None,
+    cpt_code: str | None = None,
+):
+    claims = [c for c in CLAIMS.values() if c["provider_npi"] == npi]
+    if member_id:
+        claims = [c for c in claims if c["member_id"] == member_id]
+    if service_date:
+        claims = [c for c in claims if c["service_date"] == service_date]
+    if cpt_code:
+        claims = [c for c in claims if c["cpt_code"] == cpt_code]
+    return claims
 
 
 @app.get("/fee-schedule/{cpt_code}")

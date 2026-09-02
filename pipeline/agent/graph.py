@@ -28,7 +28,8 @@ FAVORABLE_ACTIONS = {Action.ADJUST_UP, Action.REPROCESS}
 def default_llm():
     from langchain_anthropic import ChatAnthropic  # deferred: offline runs need no key
 
-    return ChatAnthropic(model=ANTHROPIC_MODEL, max_tokens=1500, temperature=0)
+    # note: `temperature` is deprecated for the Claude 5 family — don't pass it
+    return ChatAnthropic(model=ANTHROPIC_MODEL, max_tokens=1500)
 
 
 def build_graph(llm, tools):

@@ -28,9 +28,25 @@ def make_tools(unet, servicenow, capture: dict) -> list[BaseTool]:
         return resp.json() if resp.status_code == 200 else {"error": f"claim {claim_id} not found"}
 
     @tool
-    def get_provider_history(provider_npi: str) -> list[dict]:
-        """List the provider's claims (id, member, service code, date, status, paid)."""
-        resp = unet.get(f"/providers/{provider_npi}/claims")
+    def get_provider_history(
+        provider_npi: str,
+        member_id: str | None = None,
+        service_date: str | None = None,
+        cpt_code: str | None = None,
+    ) -> list[dict]:
+        """Search the provider's claims, optionally filtered by member, service date
+        (YYYY-MM-DD), and/or CPT code. Use the filters when hunting for a specific
+        original claim — the unfiltered list is capped at 25 rows."""
+        params = {
+            k: v
+            for k, v in {
+                "member_id": member_id,
+                "service_date": service_date,
+                "cpt_code": cpt_code,
+            }.items()
+            if v
+        }
+        resp = unet.get(f"/providers/{provider_npi}/claims", params=params)
         if resp.status_code != 200:
             return [{"error": "provider not found"}]
         return [

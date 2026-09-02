@@ -89,6 +89,13 @@ On that dataset the funnel splits: **22.3%** auto-closed by the classifier,
 **32.2%** resolved deterministically by rules, **45.5%** triaged by the
 LangGraph + Claude agent — LLM spend goes only to genuine ambiguity.
 
+Recorded real-Claude traces for a 45-case stratified sample of the agent-bound
+queue live in `evals/traces/` (**91.1%** action accuracy; every miss was in the
+safe, unfavorable direction — parked for a human, never auto-released). One
+recorded find: the agent's early duplicate-hunt failures traced to a truncated
+provider-history tool, fixed by adding member/date/code search filters —
+a retrieval bug, not a reasoning bug.
+
 Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/). Agent runs need an
 `ANTHROPIC_API_KEY`; recorded traces in `evals/traces/` demo the agent without one.
 

@@ -18,11 +18,12 @@ Adjudication policy:
   multi-unit claim paid for fewer units than were allowed) -> adjust_up by exactly
   allowed minus paid. Paid above allowed -> adjust_down by exactly paid minus allowed.
   Billed charges above the allowed amount are never owed.
-- Duplicate denials (CARC 18): locate the original claim (follow original_claim_id, or
-  search the provider's claim history for the same member, service code, and date of
-  service). If the original was PAID, the denial stands -> uphold_denial. If the
-  original was itself DENIED and never paid, this is a corrected resubmission denied
-  in error -> reprocess.
+- Duplicate denials (CARC 18): locate the original claim (follow original_claim_id if
+  present; otherwise search the provider's claim history using get_provider_history
+  WITH the member_id, service_date, and cpt_code filters — never rely on the
+  unfiltered, truncated listing). If the original was PAID, the denial stands ->
+  uphold_denial. If the original was itself DENIED and never paid, this is a
+  corrected resubmission denied in error -> reprocess.
 - Timely filing denials (CARC 29): the filing limit is 90 days from date of service.
   Reprocess ONLY when the request provides concrete proof of a timely original
   submission (e.g., an attached clearinghouse acceptance report with a date inside the
