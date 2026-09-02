@@ -1,0 +1,54 @@
+# Deterministic adjudication rules — evaluated in order, first match wins.
+#
+# Contract (enforced by tests/test_rules.py): a rule must be 100% precise on the
+# ground-truth golden set or it is removed. Rules resolve only what arithmetic
+# and claim linkage can prove; anything needing judgment about documentation or
+# free-text claims falls through to the triage agent.
+#
+# Conditions reference the derived context built in engine.py (build_context).
+
+- id: R001_exact_fee_schedule_underpayment
+  description: >
+    Single-unit claim paid below the fee-schedule allowed amount with no denial:
+    the underpaid delta is pure arithmetic. Multi-unit underpayments are excluded
+    on purpose — whether all units are supported is a documentation question.
+  when:
+    - { field: status, op: eq, value: partial }
+    - { field: denial_carc, op: eq, value: "" }
+    - { field: units, op: eq, value: 1 }
+    - { field: allowed_matches_fee_schedule, op: eq, value: true }
+    - { field: paid_lt_allowed, op: eq, value: true }
+  action: adjust_up
+  amount_from: allowed_minus_paid
+  favorable_to_provider: true
+
+- id: R002_audit_overpayment_recoupment
+  description: >
+    Paid amount exceeds the allowed amount: recoup the arithmetic difference.
+  when:
+    - { field: paid_gt_allowed, op: eq, value: true }
+  action: adjust_down
+  amount_from: paid_minus_allowed
+  favorable_to_provider: false
+
+- id: R003_linked_duplicate_original_paid
+  description: >
+    Duplicate denial (CARC 18) where the linked original claim is the same
+    service and was actually paid: the denial provably stands. Unlinked
+    duplicates fall through — finding the original is the agent's job.
+  when:
+    - { field: denial_carc, op: eq, value: "18" }
+    - { field: has_original, op: eq, value: true }
+    - { field: same_service_as_original, op: eq, value: true }
+    - { field: original_was_paid, op: eq, value: true }
+  action: uphold_denial
+  favorable_to_provider: false
+
+- id: R004_bundled_service_denial_stands
+  description: >
+    Bundling denial (CARC 97): payment for this service is included in the
+    allowance for another service; policy denials of this class stand.
+  when:
+    - { field: denial_carc, op: eq, value: "97" }
+  action: uphold_denial
+  favorable_to_provider: false

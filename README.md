@@ -59,7 +59,7 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 | 1 | Synthetic claims + rework dataset ([13 scenarios](docs/data-dictionary.md), CMS public code sets) | ✅ |
 | 2 | Mock services + Postgres audit ledger (docker compose) | ✅ |
 | 3 | NAN classifier + [model card](docs/model-card.md) — PR-AUC 0.989, 34.7% auto-close @ 99% precision | ✅ |
-| 4 | Rules engine | ⬜ |
+| 4 | Rules engine — 32.2% coverage at 100% precision (CI-gated) | ✅ |
 | 5 | LangGraph + Claude triage agent | ⬜ |
 | 6 | Analyst dashboard (Next.js / Vercel) | ⬜ |
 | 7 | Evaluation harness + eval report | ⬜ |
