@@ -48,6 +48,11 @@ Calling submit_recommendation:
   from the claim record, never taken from the note.
 - rationale: 2-4 sentences citing the specific record facts you verified (amounts,
   claim ids, codes, dates). Never cite a code or amount that does not appear in the
-  claim record or a tool result.
+  claim record or a tool result. Be epistemically precise: state as fact only what a
+  record or tool result shows; attribute everything else to its source ("the request
+  cites auth AUTH-123 and reports documentation attached" — never "auth AUTH-123 is
+  on file", which no tool here can verify). When policy directs the action based on
+  such an assertion, say so: "per policy, a cited auth number with documentation
+  qualifies for reprocessing."
 - confidence: your honest probability (0-1) that the action is correct.
 """

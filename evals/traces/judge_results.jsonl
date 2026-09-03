@@ -1,0 +1,45 @@
+{"request_id": "RWK-002297", "scenario_id": "auth_denied_in_error", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001029", "scenario_id": "auth_denied_in_error", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-002798", "scenario_id": "auth_denied_in_error", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004515", "scenario_id": "auth_denied_in_error", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000277", "scenario_id": "auth_denied_in_error", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000696", "scenario_id": "cob_conflict", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004647", "scenario_id": "cob_conflict", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000840", "scenario_id": "cob_conflict", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003229", "scenario_id": "cob_conflict", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000613", "scenario_id": "cob_conflict", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003951", "scenario_id": "corrected_resubmission_denied_as_dup", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001807", "scenario_id": "corrected_resubmission_denied_as_dup", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000395", "scenario_id": "corrected_resubmission_denied_as_dup", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000786", "scenario_id": "corrected_resubmission_denied_as_dup", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003595", "scenario_id": "corrected_resubmission_denied_as_dup", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003691", "scenario_id": "missing_auth_valid_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000675", "scenario_id": "missing_auth_valid_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-002078", "scenario_id": "missing_auth_valid_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000915", "scenario_id": "missing_auth_valid_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004946", "scenario_id": "missing_auth_valid_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003934", "scenario_id": "telehealth_modifier_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000539", "scenario_id": "telehealth_modifier_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001072", "scenario_id": "telehealth_modifier_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-002123", "scenario_id": "telehealth_modifier_denial", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003746", "scenario_id": "telehealth_modifier_denial", "grounded": false, "unsupported_assertions": ["POS 10 is characterized as telehealth by the rationale as if confirmed/factual, but this is the requester's claim/domain interpretation being asserted as fact about the claim's meaning without evidence support beyond the code itself - though POS code meaning is domain knowledge, the claim record does not label POS 10 as telehealth"]}
+{"request_id": "RWK-000311", "scenario_id": "timely_filing_exception", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001837", "scenario_id": "timely_filing_exception", "grounded": false, "unsupported_assertions": ["Provider history shows no earlier claim record for this member/date/CPT."]}
+{"request_id": "RWK-000301", "scenario_id": "timely_filing_exception", "grounded": false, "unsupported_assertions": ["No prior rework or earlier claim record exists in the system for this member/date/CPT combination, consistent with the original submission not having been logged as a separate claim."]}
+{"request_id": "RWK-004810", "scenario_id": "timely_filing_exception", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001081", "scenario_id": "timely_filing_exception", "grounded": false, "unsupported_assertions": ["No earlier claim record was found in provider history (only this same CLM-00001262 record appears), consistent with an original submission that didn't create a separate system record."]}
+{"request_id": "RWK-002021", "scenario_id": "timely_filing_expired", "grounded": false, "unsupported_assertions": ["The rework request specifically asks for a 'hardship-style' exception"]}
+{"request_id": "RWK-003053", "scenario_id": "timely_filing_expired", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000972", "scenario_id": "timely_filing_expired", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004100", "scenario_id": "timely_filing_expired", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000730", "scenario_id": "timely_filing_expired", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003832", "scenario_id": "true_duplicate", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001829", "scenario_id": "true_duplicate", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-003298", "scenario_id": "true_duplicate", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004664", "scenario_id": "true_duplicate", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001444", "scenario_id": "true_duplicate", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-000719", "scenario_id": "wrong_units_underpaid", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004118", "scenario_id": "wrong_units_underpaid", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004080", "scenario_id": "wrong_units_underpaid", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-004482", "scenario_id": "wrong_units_underpaid", "grounded": true, "unsupported_assertions": []}
+{"request_id": "RWK-001328", "scenario_id": "wrong_units_underpaid", "grounded": true, "unsupported_assertions": []}

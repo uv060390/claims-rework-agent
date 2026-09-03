@@ -62,7 +62,7 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 | 4 | Rules engine — 32.2% coverage at 100% precision (CI-gated) | ✅ |
 | 5 | LangGraph + Claude triage agent + orchestrator with STP gate | ✅ |
 | 6 | Analyst console — [live demo](https://claims-rework-console.vercel.app) | ✅ |
-| 7 | Evaluation harness + eval report | ⬜ |
+| 7 | Eval harness + [eval report](docs/eval-report.md) — 93.3% agent accuracy, 0 unsafe, CI safety gates | ✅ |
 | 8 | Polish, demo GIF, live deployment | ⬜ |
 
 ## Quickstart
@@ -90,7 +90,7 @@ On that dataset the funnel splits: **22.3%** auto-closed by the classifier,
 LangGraph + Claude agent — LLM spend goes only to genuine ambiguity.
 
 Recorded real-Claude traces for a 45-case stratified sample of the agent-bound
-queue live in `evals/traces/` (**91.1%** action accuracy; every miss was in the
+queue live in `evals/traces/` (**93.3%** action accuracy; every miss was in the
 safe, unfavorable direction — parked for a human, never auto-released). One
 recorded find: the agent's early duplicate-hunt failures traced to a truncated
 provider-history tool, fixed by adding member/date/code search filters —
