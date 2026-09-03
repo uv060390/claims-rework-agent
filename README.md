@@ -3,7 +3,7 @@
 **Recommend-then-Release: a human-in-the-loop agentic pipeline for healthcare claims rework, on fully synthetic data.**
 
 A public reimplementation of the architecture behind a production claims-rework automation
-system I designed and shipped at a Fortune-10 healthcare company — rebuilt end-to-end on
+system I designed and shipped at a Fortune-500 healthcare company — rebuilt end-to-end on
 synthetic data so every layer is inspectable and runnable. In production, the original
 system auto-resolves 25% of rework volume for a 120-FTE operation handling ~100K
 adjustments/month. All data and metrics **in this repo** are synthetic/simulated.
