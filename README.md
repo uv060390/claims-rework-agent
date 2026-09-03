@@ -61,7 +61,7 @@ See [`AGENTS.md`](AGENTS.md) for the full agent design contract.
 | 3 | NAN classifier + [model card](docs/model-card.md) — PR-AUC 0.989, 34.7% auto-close @ 99% precision | ✅ |
 | 4 | Rules engine — 32.2% coverage at 100% precision (CI-gated) | ✅ |
 | 5 | LangGraph + Claude triage agent + orchestrator with STP gate | ✅ |
-| 6 | Analyst dashboard (Next.js / Vercel) | ⬜ |
+| 6 | Analyst console — [live demo](https://claims-rework-console.vercel.app) | ✅ |
 | 7 | Evaluation harness + eval report | ⬜ |
 | 8 | Polish, demo GIF, live deployment | ⬜ |
 
