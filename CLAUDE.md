@@ -54,7 +54,22 @@ docker compose up          # mocks + Postgres ledger (from Phase 2)
 - Dashboard (Phase 6): Next.js App Router, deployed on Vercel; talks to a thin
   FastAPI gateway, ships a seeded demo mode.
 
-## Build phases
+## Maintenance workflows
+
+- **Changed the agent prompt or tools?** Re-record traces and re-judge (both need
+  `ANTHROPIC_API_KEY`), then regenerate the report — committed traces are what CI
+  and the eval report score:
+  `uv run python -m evals.record_traces --per-scenario 5 && uv run python -m evals.judge && uv run python -m evals.report`
+- **Changed the data generator?** Regenerate `data/demo` (seed 42), retrain the
+  classifier, update the numbers in `docs/data-dictionary.md`, and expect trace/eval
+  numbers to shift — re-record.
+- **Changed rules?** `tests/test_rules.py` enforces 100% golden-set precision and full
+  clear-cut coverage; a rule that fails gets fixed or deleted, never threshold-tuned.
+- **Console changes?** `cd dashboard && npm run build` must pass; redeploy with
+  `vercel deploy --prod` from `dashboard/`. Rebuilding the demo snapshot
+  (`evals.run_batch`) costs real API calls — only when pipeline output changed.
+
+## Build history
 
 Scaffold → synthetic data → mocks+ledger → NAN classifier → rules → LangGraph agent →
-dashboard → evals → polish. Status tracked in README.
+console → evals → polish, one phase per commit, CI green throughout.
